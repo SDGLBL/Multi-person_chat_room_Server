@@ -6,10 +6,7 @@ import User.User;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -93,6 +90,18 @@ public class creatServer {
                 System.exit(0);//退出程序
             }
         });
+        users.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount()==2){
+                    JList myjlist=(JList) e.getSource();
+                    int index=myjlist.getSelectedIndex();
+                    Object obj=myjlist.getModel().getElementAt(index);
+                    System.out.println(obj.toString());
+                    clickperson(obj.toString());
+                }
+            }
+        });
         txt_mes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,6 +163,7 @@ public class creatServer {
         });
     }
 
+
     //启动服务器
     public void startServer(int max,int port) throws BindException {
         try {
@@ -212,6 +222,23 @@ public class creatServer {
             }
         }
 
+    }
+    //服务端踢人
+    public void clickperson(String name){
+        int penum=-1;
+        for(int i=0;i<clients.size();i++){
+            if(clients.get(i).getUser().getName().equals(name)) {
+                penum=i;
+                break;
+            }
+            else continue;
+        }
+        if(penum==-1) {JOptionPane.showMessageDialog(frame, "踢出失败", "Eorr",
+                JOptionPane.ERROR_MESSAGE);
+        return;
+        }
+        clients.get(penum).getWriter().println("TICK@");
+        clients.get(penum).getWriter().flush();
     }
     // 执行消息发送
     public void send() {

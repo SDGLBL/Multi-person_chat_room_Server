@@ -2,12 +2,12 @@ package User;
 
 public class User {
     private String name;
-    private String password;
+    //private String password;
     private String ip;
     public  User(String name,String ip){
         this.name=name;
         this.ip=ip;
-       /* this.password=password;*/
+       //this.password=password;
     }
     public String  getName(){
         return name;
@@ -21,7 +21,7 @@ public class User {
     public void setIp(String ip){
         this.ip=ip;
     }
-    protected void changePassword(String password){
-        this.password=password;
-    }
+    //protected void changePassword(String password){
+    //   this.password=password;
+    //}
 }
